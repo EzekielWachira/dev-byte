@@ -12,16 +12,16 @@ data class DatabaseVideo(
     val title: String,
     val description: String,
     val thumbnail: String
-) {
-    fun List<DatabaseVideo>.asDomainModel() : List<Video> {
-        return map { databaseVideo ->
-            Video(
-                url = databaseVideo.url,
-                updated = databaseVideo.updated,
-                title = databaseVideo.title,
-                description = databaseVideo.description,
-                thumbnail = databaseVideo.thumbnail
-            )
-        }
+)
+
+fun List<DatabaseVideo>.asDomainModel() : List<Video> {
+    return map { databaseVideo ->
+        Video(
+            url = databaseVideo.url,
+            updated = databaseVideo.updated,
+            title = databaseVideo.title,
+            description = databaseVideo.description,
+            thumbnail = databaseVideo.thumbnail
+        )
     }
 }
