@@ -12,8 +12,15 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.DevByteFragment">
+        tools:context=".ui.DevByteFragment"
+        android:background="@color/background_grey"
+        >
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/dev_byte_item"/>
 
     </FrameLayout>
 </layout>
