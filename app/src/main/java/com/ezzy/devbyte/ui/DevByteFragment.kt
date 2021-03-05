@@ -1,12 +1,17 @@
 package com.ezzy.devbyte.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ezzy.devbyte.R
+import com.ezzy.devbyte.adapter.DevByteAdapter
 import com.ezzy.devbyte.databinding.FragmentDevByteBinding
 import com.ezzy.devbyte.domain.models.Video
 import com.ezzy.devbyte.viewmodel.DevByteViewModelFactory
@@ -17,6 +22,7 @@ class DevByteFragment : Fragment() {
     private var _binding: FragmentDevByteBinding? = null
     private val binding get() = _binding!!
 
+    private var viewModelAdapter: DevByteAdapter? = null
 
     private val viewModel: DevbyteViewModel by lazy {
         val activity = requireNotNull(this.activity) {
@@ -43,8 +49,29 @@ class DevByteFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        viewModelAdapter = DevByteAdapter(VideoClick {
+            val packageManager = context?.packageManager ?: return@VideoClick
+
+            var intent = Intent(Intent.ACTION_VIEW, it.launchUri)
+            if (intent.resolveActivity(packageManager) == null){
+                intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.url))
+            }
+            startActivity(intent)
+        })
+
+        binding.root.findViewById<RecyclerView>(R.id.recycler_view).apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = viewModelAdapter
+        }
+
         return binding.root
     }
+
+    private val Video.launchUri : Uri
+        get() {
+            val httpUri = Uri.parse(url)
+            return Uri.parse("vnd.youtube:" + httpUri.getQueryParameter("v"))
+        }
 
     override fun onDestroy() {
         super.onDestroy()
