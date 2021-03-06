@@ -1,5 +1,6 @@
 package com.ezzy.devbyte.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.ezzy.devbyte.database.VideosDatabase
@@ -12,6 +13,8 @@ import kotlinx.coroutines.withContext
 
 class VideosRepository(private val database: VideosDatabase) {
 
+    private val TAG = "VideosRepository"
+
     val videos: LiveData<List<Video>> = Transformations.map(
         database.videoDao.getVideos()
     ) {
@@ -20,8 +23,8 @@ class VideosRepository(private val database: VideosDatabase) {
 
     suspend fun refreshVideos() {
         withContext(Dispatchers.IO) {
-            val playList = Network.devbytes.getPlayList().await()
-            database.videoDao.insertAll(*playList.asDatabaseModel())
+            val playlist = Network.devbytes.getPlayList().await()
+            database.videoDao.insertAll(*playlist.asDatabaseModel())
         }
     }
 }

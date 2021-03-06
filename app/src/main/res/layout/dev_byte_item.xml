@@ -81,7 +81,7 @@
                 app:layout_constraintStart_toStartOf="@+id/left_well"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="this is a vedeo @android:string/fingerprint_icon_content_description" />
+                tools:text="@android:string/fingerprint_icon_content_description" />
 
             <ImageView
                 android:id="@+id/video_thumbnail"
