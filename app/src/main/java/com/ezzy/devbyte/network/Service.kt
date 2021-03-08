@@ -21,7 +21,7 @@ private val moshi = Moshi.Builder()
 object Network {
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://devbytes.udacity.com/")
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
